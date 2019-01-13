@@ -17,7 +17,11 @@ public class RobotMap {
 
   //TODO find real talon IDs
   public final static int LEFT_FRONT_TALON = 0;
+  public final static int LEFT_MIDDLE_TALON = 0;
+  public final static int LEFT_BACK_TALON = 0;
   public final static int RIGHT_FRONT_TALON = 0;
+  public final static int RIGHT_MIDDLE_TALON = 0;
+  public final static int RIGHT_BACK_TALON = 0;
 
   public final static int LEFT_FORWARD = 1;
   public final static int RIGHT_FORWARD = 1;

@@ -40,7 +40,7 @@ public class KajDrive extends Command {
     double rightSideSpeed = (forward - turn * (Math.abs(forward)));
     
     if(Utility.inRange(forward, 0, 0.1 * 2)) {
-      leftSideSpeed = turn/ 2;
+      leftSideSpeed = turn / 2;
       rightSideSpeed = -turn / 2;
     }
     

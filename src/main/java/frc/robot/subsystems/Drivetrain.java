@@ -20,12 +20,12 @@ public class Drivetrain extends Subsystem {
 
   public Drivetrain(){
     leftFront = new TalonSRX(RobotMap.LEFT_FRONT_TALON);
-    leftMiddle = new TalonSRX(RobotMap.LEFT_FRONT_TALON);
-    leftBack = new TalonSRX(RobotMap.LEFT_FRONT_TALON);
+    leftMiddle = new TalonSRX(RobotMap.LEFT_MIDDLE_TALON);
+    leftBack = new TalonSRX(RobotMap.LEFT_BACK_TALON);
 
     rightFront = new TalonSRX(RobotMap.RIGHT_FRONT_TALON);
-    rightMiddle = new TalonSRX(RobotMap.RIGHT_FRONT_TALON);
-    rightBack = new TalonSRX(RobotMap.RIGHT_FRONT_TALON);
+    rightMiddle = new TalonSRX(RobotMap.RIGHT_MIDDLE_TALON);
+    rightBack = new TalonSRX(RobotMap.RIGHT_BACK_TALON);
 
     leftMiddle.follow(leftFront);
 		leftBack.follow(leftFront);
@@ -39,7 +39,7 @@ public class Drivetrain extends Subsystem {
 		double rightPercentForward = rightPercent * RobotMap.RIGHT_FORWARD;
 		
 		leftFront.set(ControlMode.PercentOutput, leftPercentForward);
-    rightFront.set(ControlMode.PercentOutput,rightPercentForward);
+    rightFront.set(ControlMode.PercentOutput, rightPercentForward);
     
 	}
 
