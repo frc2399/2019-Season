@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -16,21 +17,19 @@ import frc.robot.RobotMap;
 
 public class Drivetrain extends Subsystem {
 
-  TalonSRX leftFront, leftMiddle, leftBack, rightFront, rightMiddle, rightBack;
+  TalonSRX leftTalon, rightTalon;
+  VictorSPX leftVictor, rightVictor;
+
 
   public Drivetrain(){
-    leftFront = new TalonSRX(RobotMap.LEFT_FRONT_TALON);
-    leftMiddle = new TalonSRX(RobotMap.LEFT_MIDDLE_TALON);
-    leftBack = new TalonSRX(RobotMap.LEFT_BACK_TALON);
+    leftTalon = new TalonSRX(RobotMap.LEFT_TALON);
+    leftVictor = new VictorSPX(RobotMap.LEFT_VICTOR);
 
-    rightFront = new TalonSRX(RobotMap.RIGHT_FRONT_TALON);
-    rightMiddle = new TalonSRX(RobotMap.RIGHT_MIDDLE_TALON);
-    rightBack = new TalonSRX(RobotMap.RIGHT_BACK_TALON);
+    rightTalon = new TalonSRX(RobotMap.RIGHT_TALON);
+    rightVictor = new VictorSPX(RobotMap.RIGHT_VICTOR);
 
-    leftMiddle.follow(leftFront);
-		leftBack.follow(leftFront);
-		rightMiddle.follow(rightFront);
-		rightBack.follow(rightFront);
+    leftVictor.follow(leftTalon);
+		rightVictor.follow(rightTalon);
   }
 
   public void drivePercent(double leftPercent, double rightPercent) {
@@ -38,8 +37,8 @@ public class Drivetrain extends Subsystem {
     double leftPercentForward = leftPercent * RobotMap.LEFT_FORWARD;
 		double rightPercentForward = rightPercent * RobotMap.RIGHT_FORWARD;
 		
-		leftFront.set(ControlMode.PercentOutput, leftPercentForward);
-    rightFront.set(ControlMode.PercentOutput, rightPercentForward);
+		leftTalon.set(ControlMode.PercentOutput, leftPercentForward);
+    rightTalon.set(ControlMode.PercentOutput, rightPercentForward);
     
 	}
 
