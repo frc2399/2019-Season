@@ -15,14 +15,13 @@ package frc.robot;
  */
 public class RobotMap {
 
-  //TODO find real talon IDs
   public final static int LEFT_TALON = 1;
   public final static int LEFT_VICTOR = 4;
 
   public final static int RIGHT_TALON = 2;
   public final static int RIGHT_VICTOR = 5;
 
-  public final static int LEFT_FORWARD = 1;
+  public final static int LEFT_FORWARD = -1;
   public final static int RIGHT_FORWARD = 1;
   
   public final static int LEFT_STICK_FORWARD = 1;

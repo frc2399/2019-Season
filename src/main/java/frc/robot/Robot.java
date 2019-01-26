@@ -9,7 +9,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import frc.robot.commands.KajDrive;
+import frc.robot.commands.TankDrive;
 import frc.robot.subsystems.Drivetrain;
 
 /**
@@ -34,7 +34,8 @@ public class Robot extends TimedRobot {
     dt = new Drivetrain();
     oi = new OI(dt);
 
-    dt.initDefaultCommand(new KajDrive(dt, oi));
+    //dt.initDefaultCommand(new KajDrive(dt, oi));
+    dt.initDefaultCommand(new TankDrive(dt, oi));
     
   }
 

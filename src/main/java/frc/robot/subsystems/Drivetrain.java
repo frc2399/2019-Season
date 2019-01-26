@@ -11,6 +11,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
@@ -19,6 +20,7 @@ public class Drivetrain extends Subsystem {
 
   TalonSRX leftTalon, rightTalon;
   VictorSPX leftVictor, rightVictor;
+  DoubleSolenoid test;
 
 
   public Drivetrain(){
@@ -27,6 +29,8 @@ public class Drivetrain extends Subsystem {
 
     rightTalon = new TalonSRX(RobotMap.RIGHT_TALON);
     rightVictor = new VictorSPX(RobotMap.RIGHT_VICTOR);
+
+    test = new DoubleSolenoid(1, 0, 1);
 
     leftVictor.follow(leftTalon);
 		rightVictor.follow(rightTalon);
