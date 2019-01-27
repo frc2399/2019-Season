@@ -8,13 +8,13 @@
 package frc.robot.intakeCommands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.subsystems.Conveyer;
+import frc.robot.subsystems.CargoElevator;
 
 public class extendIntake extends Command {
   
-  private Conveyer con;
+  private CargoElevator con;
   
-  public extendIntake(Conveyer con) {
+  public extendIntake(CargoElevator con) {
     this.con = con;
     requires(this.con);
   }

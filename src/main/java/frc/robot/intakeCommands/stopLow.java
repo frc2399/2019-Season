@@ -8,13 +8,13 @@
 package frc.robot.intakeCommands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.subsystems.Conveyer;
+import frc.robot.subsystems.CargoElevator;
 
 public class stopLow extends Command {
   
-  Conveyer con;
+  CargoElevator con;
   
-  public stopLow(Conveyer con) {
+  public stopLow(CargoElevator con) {
     this.con = con;
     requires(this.con);
   }
@@ -22,7 +22,7 @@ public class stopLow extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    con.setSpeedLowSys(0);
+    con.setRotationLowerConveyer(0);
   }
 
   // Make this return true when this Command no longer needs to run execute()

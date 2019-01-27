@@ -10,6 +10,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -17,7 +18,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 /**
  * Add your docs here.
  */
-public class Conveyer extends Subsystem {
+public class CargoElevator extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
@@ -25,59 +26,61 @@ public class Conveyer extends Subsystem {
   //motor for higher system
   //pneumatics for intake + higher pulley
 
-  private VictorSPX lowSys, highSys;
-  private DoubleSolenoid intake, pulley;
-  public boolean isIntakeExtended, isPulleyExtended, isBallInPosition;
+  private VictorSPX lowerConveyerRotation, upperConveyerRotation;
+  private DoubleSolenoid intakeExtendRetract, upperConveyerFlip;
+  private DigitalInput cargoPossessionSensor;
+  public boolean isIntakeExtended, isUpperConveyerExtended;
 
-  public Conveyer(){
+  public CargoElevator(){
 
     //TODO: find actual IDs
-    lowSys = new VictorSPX(0);
-    highSys = new VictorSPX(0);
-    intake = new DoubleSolenoid(0, 0, 0);
-    pulley = new DoubleSolenoid(0, 0, 0);
+    lowerConveyerRotation = new VictorSPX(0);
+    upperConveyerRotation = new VictorSPX(0);
+    intakeExtendRetract = new DoubleSolenoid(0, 0, 0);
+    upperConveyerFlip = new DoubleSolenoid(0, 0, 0);
+    cargoPossessionSensor = new DigitalInput(0);
 
     isIntakeExtended = false;
-    isPulleyExtended = false;
+    isUpperConveyerExtended = false;
   }
 
   //set lower system speed
-  public void setSpeedLowSys(double speed){
-    lowSys.set(ControlMode.PercentOutput, speed);
+  public void setRotationLowerConveyer(double speed){
+    lowerConveyerRotation.set(ControlMode.PercentOutput, speed);
   }
 
   //set higher system speed
-  public void setSpeedHighSys(double speed){
-    highSys.set(ControlMode.PercentOutput, speed);
+  public void setRotationUpperConveyer(double speed){
+    upperConveyerRotation.set(ControlMode.PercentOutput, speed);
   }
 
   //extend intake
   public void extendIntake(){
-    intake.set(DoubleSolenoid.Value.kForward);
+    intakeExtendRetract.set(DoubleSolenoid.Value.kForward);
     isIntakeExtended = true;
   }
 
   //retract intake
   public void retractIntake(){
-    intake.set(DoubleSolenoid.Value.kReverse);
+    intakeExtendRetract.set(DoubleSolenoid.Value.kReverse);
     isIntakeExtended = false;
   }
 
   //extend pulley
-  public void extendPulley(){
-    pulley.set(DoubleSolenoid.Value.kForward);
-    isPulleyExtended = true;
+  public void flipUpUpperConveyer(){
+    upperConveyerFlip.set(DoubleSolenoid.Value.kForward);
+    isUpperConveyerExtended = true;
   }
 
   //retract pulley
-  public void retractPulley(){
-    pulley.set(DoubleSolenoid.Value.kReverse);
-    isPulleyExtended = false;
+  public void flipDownUpperConveyer(){
+    upperConveyerFlip.set(DoubleSolenoid.Value.kReverse);
+    isUpperConveyerExtended = false;
   }
 
   //TODO: isBallInPosition
-  public void ballPositioned(){
-    isBallInPosition = true;
+  public boolean isCargoReadyToBeEjected(){
+    return cargoPossessionSensor.get();
   }
 
   public void initDefaultCommand(Command c) {

@@ -8,13 +8,13 @@
 package frc.robot.intakeCommands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.subsystems.Conveyer;
+import frc.robot.subsystems.CargoElevator;
 
 public class spinHighCargo extends Command {
   
-  Conveyer con;
+  CargoElevator con;
   
-  public spinHighCargo(Conveyer con) {
+  public spinHighCargo(CargoElevator con) {
     this.con = con;
     requires(this.con);
   }
@@ -22,7 +22,7 @@ public class spinHighCargo extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    con.setSpeedHighSys(1);
+    con.setRotationUpperConveyer(1);
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -35,6 +35,6 @@ public class spinHighCargo extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    con.setSpeedHighSys(0);
+    con.setRotationUpperConveyer(0);
   }
 }
