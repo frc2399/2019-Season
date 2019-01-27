@@ -5,16 +5,16 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.intakeCommands;
+package frc.robot.cargoCommands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.CargoElevator;
 
-public class retractPulley extends Command {
+public class FlipVerticalUpperConveyer extends Command {
   
   private CargoElevator con;
   
-  public retractPulley(CargoElevator con) {
+  public FlipVerticalUpperConveyer(CargoElevator con) {
     this.con = con;
     requires(this.con);
   }
@@ -22,7 +22,7 @@ public class retractPulley extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    con.flipUpUpperConveyer();
+    con.flipVerticalUpperConveyer();
   }
 
   // Make this return true when this Command no longer needs to run execute()

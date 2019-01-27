@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -26,7 +27,7 @@ public class CargoElevator extends Subsystem {
   //motor for higher system
   //pneumatics for intake + higher pulley
 
-  private VictorSPX lowerConveyerRotation, upperConveyerRotation;
+  private TalonSRX lowerConveyerRotation, upperConveyerRotation;
   private DoubleSolenoid intakeExtendRetract, upperConveyerFlip;
   private DigitalInput cargoPossessionSensor;
   public boolean isIntakeExtended, isUpperConveyerExtended;
@@ -34,10 +35,10 @@ public class CargoElevator extends Subsystem {
   public CargoElevator(){
 
     //TODO: find actual IDs
-    lowerConveyerRotation = new VictorSPX(0);
-    upperConveyerRotation = new VictorSPX(0);
-    intakeExtendRetract = new DoubleSolenoid(0, 0, 0);
-    upperConveyerFlip = new DoubleSolenoid(0, 0, 0);
+    lowerConveyerRotation = new TalonSRX(3);
+    upperConveyerRotation = new TalonSRX(7);
+    intakeExtendRetract = new DoubleSolenoid(1, 1, 3);
+    upperConveyerFlip = new DoubleSolenoid(1, 2, 4);
     cargoPossessionSensor = new DigitalInput(0);
 
     isIntakeExtended = false;
@@ -67,20 +68,20 @@ public class CargoElevator extends Subsystem {
   }
 
   //extend pulley
-  public void flipUpUpperConveyer(){
+  public void flipHorizontalUpperConveyer(){
     upperConveyerFlip.set(DoubleSolenoid.Value.kForward);
     isUpperConveyerExtended = true;
   }
 
   //retract pulley
-  public void flipDownUpperConveyer(){
+  public void flipVerticalUpperConveyer(){
     upperConveyerFlip.set(DoubleSolenoid.Value.kReverse);
     isUpperConveyerExtended = false;
   }
 
   //TODO: isBallInPosition
   public boolean isCargoReadyToBeEjected(){
-    return cargoPossessionSensor.get();
+    return !cargoPossessionSensor.get();
   }
 
   public void initDefaultCommand(Command c) {

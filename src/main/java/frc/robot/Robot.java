@@ -9,8 +9,10 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import frc.robot.commands.TankDrive;
-import frc.robot.subsystems.Drivetrain;
+import frc.robot.commands.*;
+import frc.robot.cargoCommands.*;
+import frc.robot.subsystems.*;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -22,6 +24,7 @@ import frc.robot.subsystems.Drivetrain;
 public class Robot extends TimedRobot {
 
   Drivetrain dt;
+  CargoElevator ca;
   OI oi;
 
   /**
@@ -32,10 +35,12 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     
     dt = new Drivetrain();
-    oi = new OI(dt);
+    ca = new CargoElevator();
+    oi = new OI(dt, ca);
 
     //dt.initDefaultCommand(new KajDrive(dt, oi));
     dt.initDefaultCommand(new TankDrive(dt, oi));
+   // ca.initDefaultCommand(new extendIntake (ca));
     
   }
 

@@ -5,16 +5,16 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.intakeCommands;
+package frc.robot.cargoCommands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.CargoElevator;
 
-public class spinLowIn extends Command {
+public class FlipHorizontalUpperConveyer extends Command {
+
+  private CargoElevator con;
   
-  CargoElevator con;
-  
-  public spinLowIn(CargoElevator con) {
+  public FlipHorizontalUpperConveyer(CargoElevator con) {
     this.con = con;
     requires(this.con);
   }
@@ -22,19 +22,12 @@ public class spinLowIn extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    con.setRotationUpperConveyer(1);
+    con.flipHorizontalUpperConveyer();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return con.isCargoReadyToBeEjected();
-  }
-
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
-  @Override
-  protected void interrupted() {
-    con.setRotationUpperConveyer(0);
+    return true;
   }
 }

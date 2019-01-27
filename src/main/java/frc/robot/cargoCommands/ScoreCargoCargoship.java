@@ -5,16 +5,16 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.intakeCommands;
+package frc.robot.cargoCommands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.CargoElevator;
 
-public class stopLow extends Command {
+public class ScoreCargoCargoship extends Command {
   
   CargoElevator con;
   
-  public stopLow(CargoElevator con) {
+  public ScoreCargoCargoship(CargoElevator con) {
     this.con = con;
     requires(this.con);
   }
@@ -22,12 +22,28 @@ public class stopLow extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    con.setRotationLowerConveyer(0);
+    con.flipVerticalUpperConveyer();
+    con.setRotationUpperConveyer(1);
+    con.setRotationLowerConveyer(1);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
     return false;
+  }
+
+  // Called when another command which requires one or more of the same
+  // subsystems is scheduled to run
+  @Override
+  protected void interrupted() {
+    end();
+  }
+
+  @Override
+  protected void end() {
+    con.setRotationUpperConveyer(0);
+    con.flipVerticalUpperConveyer();
+    con.setRotationLowerConveyer(0);
   }
 }

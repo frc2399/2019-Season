@@ -5,16 +5,16 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.intakeCommands;
+package frc.robot.cargoCommands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.CargoElevator;
 
-public class stopHigh extends Command {
+public class RetractIntake extends Command {
   
-  CargoElevator con;
+  private CargoElevator con;
   
-  public stopHigh(CargoElevator con) {
+  public RetractIntake(CargoElevator con) {
     this.con = con;
     requires(this.con);
   }
@@ -22,12 +22,12 @@ public class stopHigh extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    con.setRotationUpperConveyer(0);
+    con.retractIntake();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return true;
   }
 }

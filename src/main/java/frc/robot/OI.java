@@ -8,7 +8,9 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
-import frc.robot.subsystems.Drivetrain;
+import edu.wpi.first.wpilibj.buttons.*;
+import frc.robot.cargoCommands.*;
+import frc.robot.subsystems.*;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -16,8 +18,15 @@ import frc.robot.subsystems.Drivetrain;
  */
 public class OI {
   Joystick xBox = new Joystick(0);
+
+  private Button[] xBoxButtons;
 	
-	public OI(Drivetrain dt){		
+	public OI(Drivetrain dt, CargoElevator ca){	
+		xBoxButtons = getButtons(xBox);
+		xBoxButtons[1].whileHeld(new ScoreCargoRocket(ca));
+		xBoxButtons[2].whileHeld(new ScoreCargoCargoship(ca));
+		xBoxButtons[3].whileHeld(new ReverseIntake(ca));
+		xBoxButtons[4].whenPressed(new IntakeCargo(ca));
 	}
 	
 	public double getLeftStickX() {
@@ -34,5 +43,12 @@ public class OI {
 	
 	public double getRightStickY() {
 		return xBox.getRawAxis(5) * RobotMap.RIGHT_STICK_FORWARD; 
+	}
+	public static Button[] getButtons(Joystick controller) {
+		Button[] controllerButtons = new Button[controller.getButtonCount() + 1];
+		for(int i = 1; i < controllerButtons.length; i++) {
+			controllerButtons[i] = new JoystickButton(controller, i);
+		}
+		return controllerButtons;
 	}
 }
