@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.robot.RobotMap;
 
 /**
  * Add your docs here.
@@ -34,12 +35,11 @@ public class CargoElevator extends Subsystem {
 
   public CargoElevator(){
 
-    //TODO: find actual IDs
-    lowerConveyerRotation = new TalonSRX(3);
-    upperConveyerRotation = new TalonSRX(7);
-    intakeExtendRetract = new DoubleSolenoid(1, 1, 3);
-    upperConveyerFlip = new DoubleSolenoid(1, 2, 4);
-    cargoPossessionSensor = new DigitalInput(0);
+    lowerConveyerRotation = new TalonSRX(RobotMap.CAN.LOWER_CA_ID);
+    upperConveyerRotation = new TalonSRX(RobotMap.CAN.UPPER_CA_ID);
+    intakeExtendRetract = new DoubleSolenoid(RobotMap.CAN.PCM, RobotMap.PCM.CA_INTAKE_RETRACT, RobotMap.PCM.CA_INTAKE_EXTEND);
+    upperConveyerFlip = new DoubleSolenoid(RobotMap.CAN.PCM, RobotMap.PCM.CA_UPPER_CONVEYER_VERTICAL, RobotMap.PCM.CA_UPPER_CONVEYER_HORIZONTAL);
+    cargoPossessionSensor = new DigitalInput(RobotMap.DIO.CARGO_SENSOR);
 
     isIntakeExtended = false;
     isUpperConveyerExtended = false;
@@ -79,7 +79,6 @@ public class CargoElevator extends Subsystem {
     isUpperConveyerExtended = false;
   }
 
-  //TODO: isBallInPosition
   public boolean isCargoReadyToBeEjected(){
     return !cargoPossessionSensor.get();
   }

@@ -7,61 +7,86 @@
 
 package frc.robot.commands;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
 import frc.robot.Utility;
-import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.DriveTrain;
 
 public class KajDrive extends Command {
 
-  Drivetrain dt;
-  OI oi;
-
-  public KajDrive(Drivetrain dt, OI oi) {
-    
-    this.dt = dt;
-    this.oi = oi;
-
-    requires(dt);
-  }
-
-  // Called just before this Command runs the first time
-  @Override
-  protected void initialize() {
-  }
-
-  // Called repeatedly when this Command is scheduled to run
-  @Override
-  protected void execute() {
-    double forward = oi.getLeftStickY();
-    double turn = oi.getRightStickX();
-    
-    double leftSideSpeed = (forward + turn * (Math.abs(forward)));
-    double rightSideSpeed = (forward - turn * (Math.abs(forward)));
-    
-    if(Utility.inRange(forward, 0, 0.1 * 2)) {
-      leftSideSpeed = turn / 2;
-      rightSideSpeed = -turn / 2;
+  DriveTrain dt;
+	DoubleSupplier forwardPercent, turnPercent;
+	DoubleSupplier leftTurn, rightTurn;
+	
+	public KajDrive(DriveTrain dt, DoubleSupplier forwardPercent, DoubleSupplier turnPercent, DoubleSupplier leftTurn, DoubleSupplier rightTurn) {
+        // Use requires() here to declare subsystem dependencies
+        // eg. requires(chassis);
+    	this.dt = dt;
+    	this.forwardPercent = forwardPercent;
+    	this.turnPercent = turnPercent;
+    	this.leftTurn = leftTurn;
+    	this.rightTurn = rightTurn;
+    	
+    	requires(this.dt);
+		  setInterruptible(true);
     }
-    
-    dt.drivePercent(leftSideSpeed, rightSideSpeed);
+    // Called just before this Command runs the first time
+    protected void initialize() {
+    	dt.disableVoltageComp();
+    	dt.brakeMode();
+    }
 
-  }
+    // Called repeatedly when this Command is scheduled to run
+    protected void execute() {
+	    	double forward = forwardPercent.getAsDouble();
+	    	double turn = turnPercent.getAsDouble();
+	    	
+	    	double leftSideSpeed = (forward + turn * (Math.abs(forward)));
+		double rightSideSpeed = (forward - turn * (Math.abs(forward)));
+		
+		if(Utility.inRange(forward, 0, OI.DEADBAND_WIDTH * 2))
+		{
+			leftSideSpeed = turn/ 2;
+			rightSideSpeed = -turn / 2;
+		}
+			
+		
+//		if (leftTurn.getAsBoolean()) {
+//			leftSideSpeed = -1;
+//			rightSideSpeed = 1;
+//		}
+//		
+//		if (rightTurn.getAsBoolean()) {
+//			leftSideSpeed = 1;
+//			rightSideSpeed = -1;
+//		}
+		
+		if (leftTurn.getAsDouble() > 0.25) {
+			leftSideSpeed = -1 * leftTurn.getAsDouble();
+			rightSideSpeed = leftTurn.getAsDouble();
+		}
+		
+		if (rightTurn.getAsDouble() > 0.25) {
+			leftSideSpeed = rightTurn.getAsDouble();
+			rightSideSpeed = -1 * rightTurn.getAsDouble();
+		}
+		
+		dt.drivePercent(leftSideSpeed, rightSideSpeed);
+    }
 
-  // Make this return true when this Command no longer needs to run execute()
-  @Override
-  protected boolean isFinished() {
-    return false;
-  }
+    // Make this return true when this Command no longer needs to run execute()
+    protected boolean isFinished() {
+        return false;
+    }
 
-  // Called once after isFinished returns true
-  @Override
-  protected void end() {
-  }
+    // Called once after isFinished returns true
+    protected void end() {
+    }
 
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
-  @Override
-  protected void interrupted() {
-  }
+    // Called when another command which requires one or more of the same
+    // subsystems is scheduled to run
+    protected void interrupted() {
+    }
 }

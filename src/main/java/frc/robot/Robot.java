@@ -9,8 +9,6 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import frc.robot.commands.*;
-import frc.robot.cargoCommands.*;
 import frc.robot.subsystems.*;
 
 
@@ -23,7 +21,7 @@ import frc.robot.subsystems.*;
  */
 public class Robot extends TimedRobot {
 
-  Drivetrain dt;
+  DriveTrain dt;
   CargoElevator ca;
   OI oi;
 
@@ -34,14 +32,11 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     
-    dt = new Drivetrain();
+    dt = new DriveTrain();
     ca = new CargoElevator();
     oi = new OI(dt, ca);
 
-    //dt.initDefaultCommand(new KajDrive(dt, oi));
-    dt.initDefaultCommand(new TankDrive(dt, oi));
-   // ca.initDefaultCommand(new extendIntake (ca));
-    
+    dt.initDefaultCommand(oi.defaultDrive());    
   }
 
   /**

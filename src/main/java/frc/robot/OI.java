@@ -7,9 +7,15 @@
 
 package frc.robot;
 
+import java.util.function.BooleanSupplier;
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.*;
+import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.cargoCommands.*;
+import frc.robot.commands.KajDrive;
+import frc.robot.commands.TankDrive;
 import frc.robot.subsystems.*;
 
 /**
@@ -17,33 +23,9 @@ import frc.robot.subsystems.*;
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
-  Joystick xBox = new Joystick(0);
-
-  private Button[] xBoxButtons;
 	
-	public OI(Drivetrain dt, CargoElevator ca){	
-		xBoxButtons = getButtons(xBox);
-		xBoxButtons[1].whileHeld(new ScoreCargoRocket(ca));
-		xBoxButtons[2].whileHeld(new ScoreCargoCargoship(ca));
-		xBoxButtons[3].whileHeld(new ReverseIntake(ca));
-		xBoxButtons[4].whenPressed(new IntakeCargo(ca));
-	}
+	public static final double DEADBAND_WIDTH = 0.1;
 	
-	public double getLeftStickX() {
-		return xBox.getRawAxis(0);
-	}
-	
-	public double getLeftStickY() {
-		return xBox.getRawAxis(1) * RobotMap.LEFT_STICK_FORWARD;
-	}
-	
-	public double getRightStickX() {
-		return xBox.getRawAxis(4); 
-	}
-	
-	public double getRightStickY() {
-		return xBox.getRawAxis(5) * RobotMap.RIGHT_STICK_FORWARD; 
-	}
 	public static Button[] getButtons(Joystick controller) {
 		Button[] controllerButtons = new Button[controller.getButtonCount() + 1];
 		for(int i = 1; i < controllerButtons.length; i++) {
@@ -51,4 +33,52 @@ public class OI {
 		}
 		return controllerButtons;
 	}
+
+	Joystick xBox, stick; 
+	Button [] xBoxButtons, stickButtons;
+	
+	private Command defaultDrive;
+	private KajDrive kajDrive;
+	private TankDrive tankDrive;
+
+	public OI(DriveTrain dt, CargoElevator ca) {
+		
+		xBox = new Joystick(0);
+		stick = new Joystick(1);
+		
+		DoubleSupplier rightShoulder = ()->xBox.getRawAxis(3);
+		DoubleSupplier leftShoulder = ()->(xBox.getRawAxis(2));
+		DoubleSupplier rightX = ()->(xBox.getRawAxis(4));
+		DoubleSupplier rightY = ()->(xBox.getRawAxis(5) * -1);
+		DoubleSupplier leftY = ()->(xBox.getRawAxis(1) * -1);
+		DoubleSupplier stickY = ()->(stick.getRawAxis(1) * -1);
+		DoubleSupplier stickThrottle = ()->(throttleToPositiveRange(stick.getRawAxis(2) * -1));
+		
+		kajDrive = new KajDrive(dt, leftY, rightX, leftShoulder, rightShoulder);
+		tankDrive = new TankDrive(dt, leftY, rightY);
+		
+		defaultDrive = kajDrive;
+		
+		xBoxButtons = getButtons(xBox);
+		stickButtons = getButtons(stick);
+
+		xBoxButtons[1].whileHeld(new ScoreCargoRocket(ca));
+		xBoxButtons[2].whileHeld(new ScoreCargoCargoship(ca));
+		xBoxButtons[3].whileHeld(new ReverseIntake(ca));
+		xBoxButtons[4].whenPressed(new IntakeCargo(ca));
+	}
+	
+	public static double throttleToPositiveRange(double input) {
+		return (input + 1) / 2;
+	}
+
+	public static BooleanSupplier thresholdDoubleSupplier(DoubleSupplier d, double threshold) {
+		
+		return () -> d.getAsDouble() > threshold;
+	}
+
+	public Command defaultDrive() {
+		return defaultDrive;
+	}
+
 }
