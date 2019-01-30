@@ -14,7 +14,7 @@ import frc.robot.subsystems.DriveTrain;
 
 public class TankDrive extends Command {
 
-  DriveTrain dt;
+    DriveTrain dt;
 	DoubleSupplier leftPercent, rightPercent;
 	
 	public TankDrive(DriveTrain dt, DoubleSupplier leftPercent, DoubleSupplier rightPercent) {
