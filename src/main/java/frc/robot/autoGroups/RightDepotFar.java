@@ -7,15 +7,24 @@
 
 package frc.robot.autoGroups;
 
+import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import frc.robot.commands.*;
+import frc.robot.subsystems.*;
+import frc.robot.RobotMap;
+import frc.robot.cargoCommands.*;
 
 public class RightDepotFar extends CommandGroup {
   /**
    * Starts from the right depot, goes to farthest cargo slot
    */
-  public RightDepotFar() {
+  public RightDepotFar(DriveTrain dt, AHRS navx, CargoElevator ca) {
     //drives to farthest cargo slot
+
     //turns to slot
+
     //ejects ball
+    addSequential(new ScoreCargoCargoship(ca));
   }
 }

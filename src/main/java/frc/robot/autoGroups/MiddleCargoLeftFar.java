@@ -7,18 +7,32 @@
 
 package frc.robot.autoGroups;
 
+import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import frc.robot.commands.*;
+import frc.robot.subsystems.*;
+import frc.robot.RobotMap;
+import frc.robot.cargoCommands.*;
 
 public class MiddleCargoLeftFar extends CommandGroup {
   /**
    * Starts from the middle, goes to the farthest left cargo slot, goes to depot, picks up ball
    */
-  public MiddleCargoLeftFar() {
+  public MiddleCargoLeftFar(DriveTrain dt, AHRS navx, CargoElevator ca) {
     //drives off level 1 platform
+    addSequential(new DriveDistance(dt, navx, RobotMap.Autonomous.OFF_FIRST_PLATFORM));
     //drives to farthest left cargo slot
+
     //turns to slot
+
     //ejects ball
+    addSequential(new ScoreCargoCargoship(ca));
     //drives to depot
+
+    //extends intake
+    addSequential(new ExtendIntake(ca));
     //picks up ball
+    addSequential(new IntakeCargo(ca));
   }
 }

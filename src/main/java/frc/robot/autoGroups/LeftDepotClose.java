@@ -7,15 +7,25 @@
 
 package frc.robot.autoGroups;
 
+import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import frc.robot.commands.*;
+import frc.robot.subsystems.*;
+import frc.robot.RobotMap;
+import frc.robot.cargoCommands.*;
+
 
 public class LeftDepotClose extends CommandGroup {
   /**
    * Starts from the left depot, goes to closest cargo slot
    */
-  public LeftDepotClose() {
+  public LeftDepotClose(DriveTrain dt, AHRS navx, CargoElevator ca) {
     //drives to closest cargo slot
+
     //turns to slot
+
     //ejects ball
+    addSequential(new ScoreCargoCargoship(ca));
   }
 }

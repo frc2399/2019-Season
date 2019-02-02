@@ -7,15 +7,24 @@
 
 package frc.robot.autoGroups;
 
+import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import frc.robot.commands.*;
+import frc.robot.subsystems.*;
+import frc.robot.RobotMap;
+import frc.robot.cargoCommands.*;
 
 public class RightDepotRocket extends CommandGroup {
   /**
    * Starts from the right depot, goes to rocket
    */
-  public RightDepotRocket() {
+  public RightDepotRocket(DriveTrain dt, AHRS navx, CargoElevator ca) {
     //drives to rocket
+
     //turns to slot
+
     //ejects ball
+    addSequential(new ScoreCargoRocket(ca));
   }
 }

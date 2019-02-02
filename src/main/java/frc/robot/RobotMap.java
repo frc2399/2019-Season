@@ -54,6 +54,12 @@ public class RobotMap {
 		}
 		
 	}	
+
+	public static class Autonomous {
+		public static final int OFF_SECOND_PLATFORM = 0;
+		public static final int OFF_FIRST_PLATFORM = 0;
+	}
+
 	public static final double ANGLE_TOLERANCE = 0.75;
 	public static final double EJECT_SPEED = 1;
 }
