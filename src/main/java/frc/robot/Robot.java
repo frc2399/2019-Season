@@ -7,8 +7,13 @@
 
 package frc.robot;
 
+import com.kauailabs.navx.frc.AHRS;
+
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.*;
 
 
@@ -24,6 +29,10 @@ public class Robot extends TimedRobot {
   DriveTrain dt;
   CargoElevator ca;
   OI oi;
+  AHRS navx;
+
+  private static final int CAMERA_HEIGHT = 120;
+	private static final int CAMERA_WIDTH = 160;
 
   /**
    * This function is run when the robot is first started up and should be
@@ -34,9 +43,13 @@ public class Robot extends TimedRobot {
     
     dt = new DriveTrain();
     ca = new CargoElevator();
-    oi = new OI(dt, ca);
+    oi = new OI(dt, ca, navx);
 
-    dt.initDefaultCommand(oi.defaultDrive());    
+    dt.initDefaultCommand(oi.defaultDrive());  
+    
+    UsbCamera cam1 = CameraServer.getInstance().startAutomaticCapture();
+    cam1.setResolution(CAMERA_WIDTH, CAMERA_HEIGHT);
+    
   }
 
   /**

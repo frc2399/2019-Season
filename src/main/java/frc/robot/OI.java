@@ -10,10 +10,13 @@ package frc.robot;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
+import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.*;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.cargoCommands.*;
+import frc.robot.commands.DriveDistance;
 import frc.robot.commands.KajDrive;
 import frc.robot.commands.TankDrive;
 import frc.robot.subsystems.*;
@@ -41,7 +44,7 @@ public class OI {
 	private KajDrive kajDrive;
 	private TankDrive tankDrive;
 
-	public OI(DriveTrain dt, CargoElevator ca) {
+	public OI(DriveTrain dt, CargoElevator ca, AHRS navx) {
 		
 		xBox = new Joystick(0);
 		stick = new Joystick(1);
@@ -62,10 +65,12 @@ public class OI {
 		xBoxButtons = getButtons(xBox);
 		stickButtons = getButtons(stick);
 
-		xBoxButtons[1].whileHeld(new ScoreCargoRocket(ca));
-		xBoxButtons[2].whileHeld(new ScoreCargoCargoship(ca));
-		xBoxButtons[3].whileHeld(new ReverseIntake(ca));
-		xBoxButtons[4].whenPressed(new IntakeCargo(ca));
+		// xBoxButtons[1].whileHeld(new ScoreCargoRocket(ca));
+		// xBoxButtons[2].whileHeld(new ScoreCargoCargoship(ca));
+		// xBoxButtons[3].whileHeld(new ReverseIntake(ca));
+		// xBoxButtons[4].whenPressed(new IntakeCargo(ca));
+
+		xBoxButtons[1].whenPressed(new DriveDistance(dt, navx, 5));
 	}
 	
 	public static double throttleToPositiveRange(double input) {

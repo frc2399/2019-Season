@@ -46,8 +46,8 @@ public class RobotMap {
 			public static final double WHEEL_CIRCUMFERENCE = DRIVETRAIN_WHEEL_DIAMETER * Math.PI;
 			public static final double ENCODER_COUNT = 4096;
 			
-			public static final int LEFT_FORWARD = -1;
-			public static final int RIGHT_FORWARD = 1;
+			public static final int LEFT_FORWARD = 1;
+			public static final int RIGHT_FORWARD = -1;
 			
 			public static final double ROBOT_LENGTH = 28.6;
 			public static final double ROBOT_WIDTH = 30.5;	
