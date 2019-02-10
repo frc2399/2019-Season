@@ -18,13 +18,13 @@ public class RobotMap {
 		public static final int PCM = 1;
 		public static final byte PDP = 0;
 		
-		public static final int LEFT_DT_FRONT_ID = 1;
-		public static final int LEFT_DT_BACK_ID = 6;
-		public static final int RIGHT_DT_FRONT_ID = 7;
-		public static final int RIGHT_DT_BACK_ID = 5;
+		public static final int LEFT_DT_FRONT_ID = 2;
+		public static final int LEFT_DT_BACK_ID = 1;
+		public static final int RIGHT_DT_FRONT_ID = 3;
+		public static final int RIGHT_DT_BACK_ID = 7;
 
-		public static final int LOWER_CA_ID = 3;
-		public static final int UPPER_CA_ID = 2;
+		// public static final int LOWER_CA_ID = 3;
+		// public static final int UPPER_CA_ID = 2;
 
 	}
 	
@@ -56,7 +56,7 @@ public class RobotMap {
 	}	
 
 	public static class Autonomous {
-		public static final int OFF_SECOND_PLATFORM = 0;
+		public static final int OFF_SECOND_PLATFORM = 72;
 		public static final int OFF_FIRST_PLATFORM = 0;
 	}
 

@@ -35,11 +35,11 @@ public class CargoElevator extends Subsystem {
 
   public CargoElevator(){
 
-    lowerConveyerRotation = new TalonSRX(RobotMap.CAN.LOWER_CA_ID);
-    upperConveyerRotation = new TalonSRX(RobotMap.CAN.UPPER_CA_ID);
-    intakeExtendRetract = new DoubleSolenoid(RobotMap.CAN.PCM, RobotMap.PCM.CA_INTAKE_RETRACT, RobotMap.PCM.CA_INTAKE_EXTEND);
-    upperConveyerFlip = new DoubleSolenoid(RobotMap.CAN.PCM, RobotMap.PCM.CA_UPPER_CONVEYER_VERTICAL, RobotMap.PCM.CA_UPPER_CONVEYER_HORIZONTAL);
-    cargoPossessionSensor = new DigitalInput(RobotMap.DIO.CARGO_SENSOR);
+    // lowerConveyerRotation = new TalonSRX(RobotMap.CAN.LOWER_CA_ID);
+    // upperConveyerRotation = new TalonSRX(RobotMap.CAN.UPPER_CA_ID);
+    // intakeExtendRetract = new DoubleSolenoid(RobotMap.CAN.PCM, RobotMap.PCM.CA_INTAKE_RETRACT, RobotMap.PCM.CA_INTAKE_EXTEND);
+    // upperConveyerFlip = new DoubleSolenoid(RobotMap.CAN.PCM, RobotMap.PCM.CA_UPPER_CONVEYER_VERTICAL, RobotMap.PCM.CA_UPPER_CONVEYER_HORIZONTAL);
+    // cargoPossessionSensor = new DigitalInput(RobotMap.DIO.CARGO_SENSOR);
 
     isIntakeExtended = false;
     isUpperConveyerExtended = false;

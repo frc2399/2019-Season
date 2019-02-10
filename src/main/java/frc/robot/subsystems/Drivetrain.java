@@ -19,15 +19,15 @@ import frc.robot.RobotMap;
 public class DriveTrain extends Subsystem {	
 	
 	private static final double CLOSED_LOOP_VOLTAGE_SATURATION = 10;
-	private static final int WHEEL_DIAMETER = 4;
+	private static final int WHEEL_DIAMETER = 6;
 	private static final int ENCODER_TICKS_PER_REVOLUTION = 4096;
 	private static final double GEAR_RATIO = 1.0 / 1.0;
-	private static final int TALON_100MS_IN_1S = 10;
+	private static final double TALON_100MS_IN_1S = 10.0;
 	
-	public static final double DRIVETRAIN_FAST_KP = 0.8;
-	public static final double DRIVETRAIN_FAST_KI = 0.004;
-	public static final double DRIVETRAIN_FAST_KD = 35;
-	public static final double DRIVETRAIN_FAST_KF = 0.1;
+	public static final double DRIVETRAIN_FAST_KP = 1.875;
+	public static final double DRIVETRAIN_FAST_KI = 0.006;
+	public static final double DRIVETRAIN_FAST_KD = 52.5;
+	public static final double DRIVETRAIN_FAST_KF = 0.15;
 	
 	private static final int PID_IDX = 0;
 	private static final int CAN_TIMEOUT = 10;
@@ -38,11 +38,11 @@ public class DriveTrain extends Subsystem {
 	private double actualRightVelPrev;
 	
 	
-	private IMotorControllerEnhanced leftTalon;
-	private IMotorController leftVictor;
+	private IMotorControllerEnhanced leftBackTalon;
+	private IMotorController leftFrontTalon;
 	
-	private IMotorControllerEnhanced rightTalon;
-	private IMotorController rightVictor;
+	private IMotorControllerEnhanced rightBackTalon;
+	private IMotorController rightFrontTalon;
 	
 	private IMotorController[] allMotorControllers;
 	
@@ -50,23 +50,23 @@ public class DriveTrain extends Subsystem {
 	
     public DriveTrain() {
     	
-    	leftTalon = new TalonSRX(RobotMap.CAN.LEFT_DT_FRONT_ID);
-    	leftVictor = new VictorSPX(RobotMap.CAN.LEFT_DT_BACK_ID);
+    	leftBackTalon = new TalonSRX(RobotMap.CAN.LEFT_DT_BACK_ID);
+    	leftFrontTalon = new TalonSRX(RobotMap.CAN.LEFT_DT_FRONT_ID);
     	
-    	rightTalon = new TalonSRX(RobotMap.CAN.RIGHT_DT_FRONT_ID);
-    	rightVictor = new VictorSPX(RobotMap.CAN.RIGHT_DT_BACK_ID);
+    	rightBackTalon = new TalonSRX(RobotMap.CAN.RIGHT_DT_BACK_ID);
+    	rightFrontTalon = new TalonSRX(RobotMap.CAN.RIGHT_DT_FRONT_ID);
     	
-    	IMotorController[] allMotorControllers = {leftTalon, leftVictor, rightTalon, rightVictor};
+    	IMotorController[] allMotorControllers = {leftBackTalon, leftFrontTalon, rightBackTalon, rightFrontTalon};
     	this.allMotorControllers = allMotorControllers;
     	
-		leftVictor.follow(leftTalon);
-		rightVictor.follow(rightTalon);
+		leftFrontTalon.follow(leftBackTalon);
+		rightFrontTalon.follow(rightBackTalon);
     	
     	// timeout constants
-    	leftTalon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, PID_IDX, CAN_TIMEOUT);
-    	rightTalon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, PID_IDX, CAN_TIMEOUT);
-    	leftTalon.setSensorPhase(false);
-    	rightTalon.setSensorPhase(false);
+    	leftBackTalon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, PID_IDX, CAN_TIMEOUT);
+    	rightBackTalon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, PID_IDX, CAN_TIMEOUT);
+    	leftBackTalon.setSensorPhase(true);
+    	rightBackTalon.setSensorPhase(true);
     	
     	// timeout constants
 		setConstants(DRIVETRAIN_FAST_KP, DRIVETRAIN_FAST_KI, DRIVETRAIN_FAST_KD, DRIVETRAIN_FAST_KF);
@@ -85,6 +85,11 @@ public class DriveTrain extends Subsystem {
 		actualRightVelPrev = 0;
 		
 		fuzz = 0.001;
+
+		Double[] blank1 = {0.0};
+		Double[] blank2 = {0.0};
+		SmartDashboard.putNumberArray("leftVelocity", blank1);
+		SmartDashboard.putNumberArray("rightVelocity", blank2);
     }
     
     public void initDefaultCommand(Command c) {
@@ -96,8 +101,8 @@ public class DriveTrain extends Subsystem {
 		double leftPercentForward = leftPercent * RobotMap.Physical.DriveTrain.LEFT_FORWARD;
 		double rightPercentForward = rightPercent * RobotMap.Physical.DriveTrain.RIGHT_FORWARD;
 		
-		leftTalon.set(ControlMode.PercentOutput, leftPercentForward);
-		rightTalon.set(ControlMode.PercentOutput, rightPercentForward);
+		leftBackTalon.set(ControlMode.PercentOutput, leftPercentForward);
+		rightBackTalon.set(ControlMode.PercentOutput, rightPercentForward);
 	
 	}
     
@@ -107,7 +112,7 @@ public class DriveTrain extends Subsystem {
     
     public double toNativeTalonFromInPerSec(double inPerSec) {
     	// 60.0 / 24.0
-    	return inPerSec * (4096.0 / (4.0 * Math.PI)) * (1.0 / 10.0);
+    	return inPerSec * (ENCODER_TICKS_PER_REVOLUTION / (WHEEL_DIAMETER * Math.PI)) * (1.0 / TALON_100MS_IN_1S);
     }
 
     public void driveVelocity(double leftVelocity, double rightVelocity) {
@@ -116,11 +121,11 @@ public class DriveTrain extends Subsystem {
     	double desiredLeftVelocityForward = toNativeTalonFromInPerSec(leftVelocity) * RobotMap.Physical.DriveTrain.LEFT_FORWARD ;
 		double desiredRightVelocityForward = toNativeTalonFromInPerSec(rightVelocity) * RobotMap.Physical.DriveTrain.RIGHT_FORWARD;
 		
-		leftTalon.set(ControlMode.Velocity, desiredLeftVelocityForward);
-		rightTalon.set(ControlMode.Velocity, desiredRightVelocityForward);
+		leftBackTalon.set(ControlMode.Velocity, desiredLeftVelocityForward);
+		rightBackTalon.set(ControlMode.Velocity, desiredRightVelocityForward);
 		
-		double actualLeftVelocityForward = leftTalon.getSelectedSensorVelocity(0);
-		double actualRightVelocityForward = rightTalon.getSelectedSensorVelocity(0);
+		double actualLeftVelocityForward = leftBackTalon.getSelectedSensorVelocity(0);
+		double actualRightVelocityForward = rightBackTalon.getSelectedSensorVelocity(0);
 		
 		double[] leftVelocityArr = {desiredLeftVelocityForward, actualLeftVelocityForward, fuzz};
 		double[] rightVelocityArr = {desiredRightVelocityForward, actualRightVelocityForward, fuzz};
@@ -177,25 +182,25 @@ public class DriveTrain extends Subsystem {
     }
     
     public void setConstants(double p, double i, double d, double f) {
-    	leftTalon.configNominalOutputForward(0, CAN_TIMEOUT);
-		leftTalon.configNominalOutputReverse(0, CAN_TIMEOUT);
-		leftTalon.configPeakOutputForward(1, CAN_TIMEOUT);
-		leftTalon.configPeakOutputReverse(-1, CAN_TIMEOUT);
+    	leftBackTalon.configNominalOutputForward(0, CAN_TIMEOUT);
+		leftBackTalon.configNominalOutputReverse(0, CAN_TIMEOUT);
+		leftBackTalon.configPeakOutputForward(1, CAN_TIMEOUT);
+		leftBackTalon.configPeakOutputReverse(-1, CAN_TIMEOUT);
 
-		leftTalon.config_kF(0, f, CAN_TIMEOUT);
-		leftTalon.config_kP(0, p, CAN_TIMEOUT);
-		leftTalon.config_kI(0, i, CAN_TIMEOUT);
-		leftTalon.config_kD(0, d, CAN_TIMEOUT);
+		leftBackTalon.config_kF(0, f, CAN_TIMEOUT);
+		leftBackTalon.config_kP(0, p, CAN_TIMEOUT);
+		leftBackTalon.config_kI(0, i, CAN_TIMEOUT);
+		leftBackTalon.config_kD(0, d, CAN_TIMEOUT);
 		
-		rightTalon.configNominalOutputForward(0, CAN_TIMEOUT);
-		rightTalon.configNominalOutputReverse(0, CAN_TIMEOUT);
-		rightTalon.configPeakOutputForward(1, CAN_TIMEOUT);
-		rightTalon.configPeakOutputReverse(-1, CAN_TIMEOUT);
+		rightBackTalon.configNominalOutputForward(0, CAN_TIMEOUT);
+		rightBackTalon.configNominalOutputReverse(0, CAN_TIMEOUT);
+		rightBackTalon.configPeakOutputForward(1, CAN_TIMEOUT);
+		rightBackTalon.configPeakOutputReverse(-1, CAN_TIMEOUT);
 
-		rightTalon.config_kF(0, f, CAN_TIMEOUT);
-		rightTalon.config_kP(0, p, CAN_TIMEOUT);
-		rightTalon.config_kI(0, i, CAN_TIMEOUT);
-		rightTalon.config_kD(0, d, CAN_TIMEOUT);
+		rightBackTalon.config_kF(0, f, CAN_TIMEOUT);
+		rightBackTalon.config_kP(0, p, CAN_TIMEOUT);
+		rightBackTalon.config_kI(0, i, CAN_TIMEOUT);
+		rightBackTalon.config_kD(0, d, CAN_TIMEOUT);
     }
     
     private void flipFuzz() {

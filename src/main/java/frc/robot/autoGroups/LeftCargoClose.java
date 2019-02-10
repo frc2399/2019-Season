@@ -11,6 +11,7 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.commands.*;
+import frc.robot.commands.TurnAngle.EndAngleMeaning;
 import frc.robot.subsystems.*;
 import frc.robot.RobotMap;
 import frc.robot.cargoCommands.*;
@@ -26,7 +27,7 @@ public class LeftCargoClose extends CommandGroup {
     //drives to closest cargo slot
 
     //turns to slot
-
+    addSequential(new TurnAngle(dt, navx, 90, EndAngleMeaning.ABSOLUTE));
     //ejects ball
     addSequential(new ScoreCargoCargoship(ca));
     //drives to depot

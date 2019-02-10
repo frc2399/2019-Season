@@ -12,8 +12,12 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.I2C.Port;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.autoGroups.*;
 import frc.robot.subsystems.*;
 
 
@@ -31,8 +35,11 @@ public class Robot extends TimedRobot {
   OI oi;
   AHRS navx;
 
+  SendableChooser<Command> autoChooser;
+
   private static final int CAMERA_HEIGHT = 120;
-	private static final int CAMERA_WIDTH = 160;
+  private static final int CAMERA_WIDTH = 160;
+  double fuzz = 0.1;
 
   /**
    * This function is run when the robot is first started up and should be
@@ -41,15 +48,24 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     
+    navx = new AHRS(Port.kMXP);	
+    
     dt = new DriveTrain();
     ca = new CargoElevator();
     oi = new OI(dt, ca, navx);
+
 
     dt.initDefaultCommand(oi.defaultDrive());  
     
     UsbCamera cam1 = CameraServer.getInstance().startAutomaticCapture();
     cam1.setResolution(CAMERA_WIDTH, CAMERA_HEIGHT);
+
+    autoChooser = new SendableChooser<>();
+    autoChooser.addOption("LeftCargoClose", new LeftCargoClose(dt, navx, ca));
+    autoChooser.addOption("LeftCargoFar", new LeftCargoFar(dt, navx, ca));
     
+    SmartDashboard.putData("AutoChooser", autoChooser);
+    SmartDashboard.putData("DriveTrain", dt);
   }
 
   /**
@@ -100,6 +116,10 @@ public class Robot extends TimedRobot {
      */
 
     // schedule the autonomous command (example)
+
+    Command auto = autoChooser.getSelected();
+    auto.start();
+
   }
 
   /**
@@ -131,5 +151,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
+    fuzz *= -1;
+    double[] testAngle = new double[]{navx.getAngle(), fuzz};
+
+    SmartDashboard.putNumberArray("testAngle", testAngle);
   }
 }

@@ -19,6 +19,8 @@ import frc.robot.cargoCommands.*;
 import frc.robot.commands.DriveDistance;
 import frc.robot.commands.KajDrive;
 import frc.robot.commands.TankDrive;
+import frc.robot.commands.TurnAngle;
+import frc.robot.commands.TurnAngle.EndAngleMeaning;
 import frc.robot.subsystems.*;
 
 /**
@@ -70,7 +72,20 @@ public class OI {
 		// xBoxButtons[3].whileHeld(new ReverseIntake(ca));
 		// xBoxButtons[4].whenPressed(new IntakeCargo(ca));
 
-		xBoxButtons[1].whenPressed(new DriveDistance(dt, navx, 5));
+		// test angles -----------------------------------------------------------------------------------------
+
+		// xBoxButtons[1].whenPressed(new TurnAngle(dt, navx, 45, EndAngleMeaning.RELATIVE));
+		// xBoxButtons[2].whenPressed(new TurnAngle(dt, navx, 90, EndAngleMeaning.RELATIVE));
+		// xBoxButtons[3].whenPressed(new TurnAngle(dt, navx, 180, EndAngleMeaning.RELATIVE));
+		// xBoxButtons[4].whenPressed(new TurnAngle(dt, navx, 360, EndAngleMeaning.RELATIVE));
+
+		// xBoxButtons[5].whenPressed(new TurnAngle(dt, navx, 0, EndAngleMeaning.ABSOLUTE));
+
+		// test distances ---------------------------------------------------------------------------------------
+
+		xBoxButtons[1].whenPressed(new DriveDistance(dt, navx, 24));
+		xBoxButtons[2].whenPressed(new DriveDistance(dt, navx, -24));
+
 	}
 	
 	public static double throttleToPositiveRange(double input) {
