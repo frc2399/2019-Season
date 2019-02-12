@@ -11,6 +11,7 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.commands.*;
+import frc.robot.commands.TurnAngle.EndAngleMeaning;
 import frc.robot.subsystems.*;
 import frc.robot.RobotMap;
 import frc.robot.cargoCommands.*;
@@ -21,18 +22,33 @@ public class LeftCargoMiddle extends CommandGroup {
    */
   public LeftCargoMiddle(DriveTrain dt, AHRS navx, CargoElevator ca) {
     //drives off level 2 platform
-    addSequential(new DriveDistance(dt, navx, RobotMap.Autonomous.OFF_SECOND_PLATFORM));
-    //drives to middle cargo slot
-
+    addSequential(new DriveDistance(dt, navx, 36));
+    //drives to closest cargo slot
+    addSequential(new DriveDistance(dt, navx, -50));
+    addSequential(new DriveDistance(dt, navx, 84));
+    addSequential(new TurnAngle(dt, navx, -15, EndAngleMeaning.RELATIVE));
+    addSequential(new DriveDistance(dt, navx, 78));
+    
     //turns to slot
-
+    addSequential(new TurnAngle(dt, navx, 105, EndAngleMeaning.RELATIVE));
+    //drives forward to slot
+    addSequential(new DriveDistance(dt, navx, 32));
     //ejects ball
     addSequential(new ScoreCargoCargoship(ca));
     //drives to depot
-
+    addSequential(new DriveDistance(dt, navx, -20));
+    addSequential(new TurnAngle(dt, navx, 90, EndAngleMeaning.RELATIVE));
+    addSequential(new DriveDistance(dt, navx, 108));
+    addSequential(new TurnAngle(dt, navx, 90, EndAngleMeaning.RELATIVE));
+    addSequential(new DriveDistance(dt, navx, 32));
+    addSequential(new TurnAngle(dt, navx, -90, EndAngleMeaning.RELATIVE));
+    addSequential(new DriveDistance(dt, navx, 42));
+    addSequential(new TurnAngle(dt, navx, -45, EndAngleMeaning.RELATIVE));
+    
     //extends intake
     addSequential(new ExtendIntake(ca));
-    //picks up ball
-    addSequential(new IntakeCargo(ca));
+    //drives to ball and intakes
+    addParallel(new IntakeCargo(ca));
+    addSequential(new DriveDistance(dt, navx, 12));
   }
 }
