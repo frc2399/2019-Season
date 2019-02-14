@@ -22,7 +22,6 @@ public class MiddleCargoLeftClose extends CommandGroup {
    */
   public MiddleCargoLeftClose(DriveTrain dt, AHRS navx, CargoElevator ca) {
     //drives off level 1 platform
-    addSequential(new DriveDistance(dt, navx, RobotMap.Autonomous.OFF_FIRST_PLATFORM));
     
     addSequential(new DriveDistance(dt, navx, 50));
     addSequential(new TurnAngle(dt, navx, -35, EndAngleMeaning.RELATIVE));

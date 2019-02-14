@@ -22,33 +22,33 @@ public class LeftCargoFar extends CommandGroup {
    */
   public LeftCargoFar(DriveTrain dt, AHRS navx, CargoElevator ca) {
     //drives off level 2 platform
-    addSequential(new DriveDistance(dt, navx, 36));
+    addSequential(new DriveDistance(dt, navx, 48));
     //drives to closest cargo slot
-    addSequential(new DriveDistance(dt, navx, -50));
-    addSequential(new DriveDistance(dt, navx, 84));
+    addSequential(new DriveDistance(dt, navx, -8.5));
+    addSequential(new DriveDistance(dt, navx, 134));
     addSequential(new TurnAngle(dt, navx, -15, EndAngleMeaning.RELATIVE));
-    addSequential(new DriveDistance(dt, navx, 90));
+    addSequential(new DriveDistance(dt, navx, 113.2));
     
     //turns to slot
     addSequential(new TurnAngle(dt, navx, 105, EndAngleMeaning.RELATIVE));
     //drives forward to slot
-    addSequential(new DriveDistance(dt, navx, 36));
+    addSequential(new DriveDistance(dt, navx, 30.15));
     //ejects ball
     addSequential(new ScoreCargoCargoship(ca));
     //drives to depot
-    addSequential(new DriveDistance(dt, navx, -20));
+    addSequential(new DriveDistance(dt, navx, -17.85));
     addSequential(new TurnAngle(dt, navx, 90, EndAngleMeaning.RELATIVE));
-    addSequential(new DriveDistance(dt, navx, 122));
+    addSequential(new DriveDistance(dt, navx, 194.25));
     addSequential(new TurnAngle(dt, navx, 90, EndAngleMeaning.RELATIVE));
-    addSequential(new DriveDistance(dt, navx, 32));
-    addSequential(new TurnAngle(dt, navx, -90, EndAngleMeaning.RELATIVE));
     addSequential(new DriveDistance(dt, navx, 40));
+    addSequential(new TurnAngle(dt, navx, -90, EndAngleMeaning.RELATIVE));
+    addSequential(new DriveDistance(dt, navx, 58));
     addSequential(new TurnAngle(dt, navx, -45, EndAngleMeaning.RELATIVE));
     
     //extends intake
     addSequential(new ExtendIntake(ca));
     //drives to ball and intakes
     addParallel(new IntakeCargo(ca));
-    addSequential(new DriveDistance(dt, navx, 10));
+    addSequential(new DriveDistance(dt, navx, 20));
   }
 }

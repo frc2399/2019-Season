@@ -22,33 +22,33 @@ public class RightCargoClose extends CommandGroup {
    */
   public RightCargoClose(DriveTrain dt, AHRS navx, CargoElevator ca) {
     //drives off level 2 platform
-    addSequential(new DriveDistance(dt, navx, 36));
+    addSequential(new DriveDistance(dt, navx, 48));
     //drives to closest cargo slot
-    addSequential(new DriveDistance(dt, navx, -50));
-    addSequential(new DriveDistance(dt, navx, 84));
+    addSequential(new DriveDistance(dt, navx, -8.5));
+    addSequential(new DriveDistance(dt, navx, 134));
     addSequential(new TurnAngle(dt, navx, 15, EndAngleMeaning.RELATIVE));
-    addSequential(new DriveDistance(dt, navx, 61));
+    addSequential(new DriveDistance(dt, navx, 65.8));
     
     //turns to slot
     addSequential(new TurnAngle(dt, navx, -105, EndAngleMeaning.RELATIVE));
     //drives forward to slot
-    addSequential(new DriveDistance(dt, navx, 12));
+    addSequential(new DriveDistance(dt, navx, 17.85));
     //ejects ball
     addSequential(new ScoreCargoCargoship(ca));
     //drives to depot
-    addSequential(new DriveDistance(dt, navx, -12));
+    addSequential(new DriveDistance(dt, navx, -17.85));
     addSequential(new TurnAngle(dt, navx, -90, EndAngleMeaning.RELATIVE));
-    addSequential(new DriveDistance(dt, navx, 92));
+    addSequential(new DriveDistance(dt, navx, 149.3));
     addSequential(new TurnAngle(dt, navx, -90, EndAngleMeaning.RELATIVE));
-    addSequential(new DriveDistance(dt, navx, 32));
+    addSequential(new DriveDistance(dt, navx, 40));
     addSequential(new TurnAngle(dt, navx, 90, EndAngleMeaning.RELATIVE));
-    addSequential(new DriveDistance(dt, navx, 35));
+    addSequential(new DriveDistance(dt, navx, 58));
     addSequential(new TurnAngle(dt, navx, 45, EndAngleMeaning.RELATIVE));
     
     //extends intake
     addSequential(new ExtendIntake(ca));
     //drives to ball and intakes
     addParallel(new IntakeCargo(ca));
-    addSequential(new DriveDistance(dt, navx, 18));
+    addSequential(new DriveDistance(dt, navx, 20));
   }
 }
