@@ -36,13 +36,9 @@ public class LeftCargoMiddle extends CommandGroup {
     //ejects ball
     addSequential(new ScoreCargoCargoship(ca));
     //drives to depot
-    addSequential(new DriveDistance(dt, navx, -17.85));
+    addSequential(new DriveDistance(dt, navx, -57.85));
     addSequential(new TurnAngle(dt, navx, 90, EndAngleMeaning.RELATIVE));
-    addSequential(new DriveDistance(dt, navx, 172.5));
-    addSequential(new TurnAngle(dt, navx, 90, EndAngleMeaning.RELATIVE));
-    addSequential(new DriveDistance(dt, navx, 40));
-    addSequential(new TurnAngle(dt, navx, -90, EndAngleMeaning.RELATIVE));
-    addSequential(new DriveDistance(dt, navx, 58));
+    addSequential(new DriveDistance(dt, navx, 230.3));
     addSequential(new TurnAngle(dt, navx, -45, EndAngleMeaning.RELATIVE));
     
     //extends intake

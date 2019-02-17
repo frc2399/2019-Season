@@ -22,30 +22,26 @@ public class MiddleCargoRightClose extends CommandGroup {
    */
   public MiddleCargoRightClose(DriveTrain dt, AHRS navx, CargoElevator ca) {
     //drives off level 1 platform
-    addSequential(new DriveDistance(dt, navx, 50));
-    addSequential(new TurnAngle(dt, navx, 35, EndAngleMeaning.RELATIVE));
     addSequential(new DriveDistance(dt, navx, 90));
+    addSequential(new TurnAngle(dt, navx, 35, EndAngleMeaning.RELATIVE));
+    addSequential(new DriveDistance(dt, navx, 131));
     
     //turns to slot
-    addSequential(new TurnAngle(dt, navx, -123, EndAngleMeaning.RELATIVE));
+    addSequential(new TurnAngle(dt, navx, -125, EndAngleMeaning.RELATIVE));
     //drives forward to slot
-    addSequential(new DriveDistance(dt, navx, 30));
+    addSequential(new DriveDistance(dt, navx, 32));
     //ejects ball
     addSequential(new ScoreCargoCargoship(ca));
     //drives to depot
-    addSequential(new DriveDistance(dt, navx, -12));
-    addSequential(new TurnAngle(dt, navx, -92, EndAngleMeaning.RELATIVE));
-    addSequential(new DriveDistance(dt, navx, 89));
+    addSequential(new DriveDistance(dt, navx, -57.85));
     addSequential(new TurnAngle(dt, navx, -90, EndAngleMeaning.RELATIVE));
-    addSequential(new DriveDistance(dt, navx, 37));
-    addSequential(new TurnAngle(dt, navx, 90, EndAngleMeaning.RELATIVE));
-    addSequential(new DriveDistance(dt, navx, 40));
+    addSequential(new DriveDistance(dt, navx, 207.3));
     addSequential(new TurnAngle(dt, navx, 45, EndAngleMeaning.RELATIVE));
     
     //extends intake
     addSequential(new ExtendIntake(ca));
     //drives to ball and intakes
     addParallel(new IntakeCargo(ca));
-    addSequential(new DriveDistance(dt, navx, 13));
+    addSequential(new DriveDistance(dt, navx, 20));
   }
 }
