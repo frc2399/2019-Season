@@ -8,7 +8,6 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
@@ -29,36 +28,31 @@ public class CargoElevator extends Subsystem {
   //motor for higher system
   //pneumatics for intake + higher pulley
 
-  private TalonSRX lowerConveyerRotation;
-  private VictorSPX upperConveyerRotation;
+  private TalonSRX lowerConveyerRotation, upperConveyerRotation;
   private DoubleSolenoid intakeExtendRetract, upperConveyerFlip;
-  private DigitalInput cargoPossessionSensorLeft, cargoPossessionSensorRight;
+  private DigitalInput cargoPossessionSensor;
   public boolean isIntakeExtended, isUpperConveyerExtended;
 
   public CargoElevator(){
 
-    lowerConveyerRotation = new TalonSRX(RobotMap.CAN.LOWER_CA_ID);
-    upperConveyerRotation = new VictorSPX(RobotMap.CAN.UPPER_CA_ID);
-    intakeExtendRetract = new DoubleSolenoid(RobotMap.CAN.PCM, RobotMap.PCM.CA_INTAKE_RETRACT, RobotMap.PCM.CA_INTAKE_EXTEND);
-    upperConveyerFlip = new DoubleSolenoid(RobotMap.CAN.PCM, RobotMap.PCM.CA_UPPER_CONVEYER_VERTICAL, RobotMap.PCM.CA_UPPER_CONVEYER_HORIZONTAL);
-    cargoPossessionSensorLeft = new DigitalInput(RobotMap.DIO.CARGO_SENSOR_LEFT);
-    cargoPossessionSensorRight = new DigitalInput(RobotMap.DIO.CARGO_SENSOR_RIGHT);
+    // lowerConveyerRotation = new TalonSRX(RobotMap.CAN.LOWER_CA_ID);
+    // upperConveyerRotation = new TalonSRX(RobotMap.CAN.UPPER_CA_ID);
+    // intakeExtendRetract = new DoubleSolenoid(RobotMap.CAN.PCM, RobotMap.PCM.CA_INTAKE_RETRACT, RobotMap.PCM.CA_INTAKE_EXTEND);
+    // upperConveyerFlip = new DoubleSolenoid(RobotMap.CAN.PCM, RobotMap.PCM.CA_UPPER_CONVEYER_VERTICAL, RobotMap.PCM.CA_UPPER_CONVEYER_HORIZONTAL);
+    // cargoPossessionSensor = new DigitalInput(RobotMap.DIO.CARGO_SENSOR);
 
     isIntakeExtended = false;
     isUpperConveyerExtended = false;
-
-    lowerConveyerRotation.setNeutralMode(NeutralMode.Brake);
-    upperConveyerRotation.setNeutralMode(NeutralMode.Brake);
   }
 
   //set lower system speed
   public void setRotationLowerConveyer(double speed){
-    lowerConveyerRotation.set(ControlMode.PercentOutput, speed * RobotMap.Physical.Cargo.LOWER_FORWARD);
+    lowerConveyerRotation.set(ControlMode.PercentOutput, speed);
   }
 
   //set higher system speed
   public void setRotationUpperConveyer(double speed){
-    upperConveyerRotation.set(ControlMode.PercentOutput, speed * RobotMap.Physical.Cargo.UPPER_FORWARD);
+    upperConveyerRotation.set(ControlMode.PercentOutput, speed);
   }
 
   //extend intake
@@ -75,18 +69,18 @@ public class CargoElevator extends Subsystem {
 
   //extend pulley
   public void flipHorizontalUpperConveyer(){
-    upperConveyerFlip.set(DoubleSolenoid.Value.kReverse);
+    upperConveyerFlip.set(DoubleSolenoid.Value.kForward);
     isUpperConveyerExtended = true;
   }
 
   //retract pulley
   public void flipVerticalUpperConveyer(){
-    upperConveyerFlip.set(DoubleSolenoid.Value.kForward);
+    upperConveyerFlip.set(DoubleSolenoid.Value.kReverse);
     isUpperConveyerExtended = false;
   }
 
   public boolean isCargoReadyToBeEjected(){
-    return !cargoPossessionSensorLeft.get() || !cargoPossessionSensorRight.get();
+    return !cargoPossessionSensor.get();
   }
 
   public void initDefaultCommand(Command c) {

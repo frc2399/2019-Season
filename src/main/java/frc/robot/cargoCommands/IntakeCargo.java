@@ -23,7 +23,7 @@ public class IntakeCargo extends Command {
   @Override
   protected void execute() {
     con.extendIntake();
-    con.setRotationLowerConveyer(.5);
+    con.setRotationLowerConveyer(1);
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -41,5 +41,7 @@ public class IntakeCargo extends Command {
 
   @Override
   protected void end() {
+    con.setRotationLowerConveyer(0);
+    con.retractIntake();
   }
 }

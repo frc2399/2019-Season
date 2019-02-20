@@ -13,10 +13,10 @@ public class TurnAngle extends Command {
 
 	private static final double ANGLE_RATE_TOLERANCE = .1;
 	private static final double ANGLE_TOLERANCE = 0.5;
-	private static final int ANGULAR_RATE = 120;
+	private static final int ANGULAR_RATE = 160;
 	private static final double MAX_I_CONTRIB = 0.3;
-	private static final double P_GAIN = 0.025;
-	private static final double I_GAIN = 0.0001;
+	private static final double P_GAIN = 0.015;
+	private static final double I_GAIN = 0.00007;
 	private static final double D_GAIN = 0.15;
 	
 	private double tempP;
@@ -135,7 +135,7 @@ public class TurnAngle extends Command {
 	@Override
 	protected boolean isFinished() {
 		return
-			timer.get() > endTime + 0.5 || (timer.get() > endTime 
+				timer.get() > endTime + 0.25 || (timer.get() > endTime 
 				&& Utility.inRange(navx.getAngle(), endAngle, ANGLE_TOLERANCE)
 				&& Utility.inRange(navx.getRate(), 0, ANGLE_RATE_TOLERANCE));
 	}
@@ -166,8 +166,6 @@ public class TurnAngle extends Command {
 		tempD = SmartDashboard.getNumber("dGain", D_GAIN);
 		tempMaxIContrib = SmartDashboard.getNumber("maxIContrib", MAX_I_CONTRIB);
 		
-		System.out.println(tempP + " " + tempI + " " + tempD);
-
 		endTime = (endAngle - startAngle) / angularVelocity;
 		
 	//super.initialize();
