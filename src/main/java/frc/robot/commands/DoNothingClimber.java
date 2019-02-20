@@ -5,26 +5,28 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.cargoCommands;
+package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.subsystems.CargoElevator;
+import frc.robot.subsystems.Climber;
 
-public class ScoreCargoRocket extends Command {
+public class DoNothingClimber extends Command {
+  Climber cl;
   
-  CargoElevator con;
-  
-  public ScoreCargoRocket(CargoElevator con) {
-    this.con = con;
-    requires(this.con);
+  public DoNothingClimber(Climber cl) {
+    this.cl = cl;
+    requires(this.cl);
+  }
+
+  // Called just before this Command runs the first time
+  @Override
+  protected void initialize() {
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    con.setRotationUpperConveyer(-1);
-    con.flipHorizontalUpperConveyer();
-    con.setRotationLowerConveyer(1);
+    cl.setPercent(0);
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -33,14 +35,14 @@ public class ScoreCargoRocket extends Command {
     return false;
   }
 
+  // Called once after isFinished returns true
+  @Override
+  protected void end() {
+  }
+
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    end();
-  }
-
-  @Override
-  protected void end() {
   }
 }

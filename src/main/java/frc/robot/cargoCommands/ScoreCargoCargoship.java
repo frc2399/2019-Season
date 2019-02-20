@@ -42,8 +42,5 @@ public class ScoreCargoCargoship extends Command {
 
   @Override
   protected void end() {
-    con.setRotationUpperConveyer(0);
-    con.flipVerticalUpperConveyer();
-    con.setRotationLowerConveyer(0);
   }
 }

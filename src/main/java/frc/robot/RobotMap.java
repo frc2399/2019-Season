@@ -23,21 +23,24 @@ public class RobotMap {
 		public static final int RIGHT_DT_FRONT_ID = 3;
 		public static final int RIGHT_DT_BACK_ID = 7;
 
-		// public static final int LOWER_CA_ID = 3;
-		// public static final int UPPER_CA_ID = 2;
+		public static final int LOWER_CA_ID = 8;
+		public static final int UPPER_CA_ID = 6;
+
+		public static final int LEFT_CL_ID = 4;
+		public static final int RIGHT_CL_ID = 5;
 
 	}
 	
 	public static class PCM {
-		public static final int CA_INTAKE_EXTEND = 1;
-		public static final int CA_INTAKE_RETRACT = 3;
-		public static final int CA_UPPER_CONVEYER_HORIZONTAL = 2;
-		public static final int CA_UPPER_CONVEYER_VERTICAL = 4;
-		
+		public static final int CA_INTAKE_EXTEND = 3;
+		public static final int CA_INTAKE_RETRACT = 0;
+		public static final int CA_UPPER_CONVEYER_HORIZONTAL = 1;
+		public static final int CA_UPPER_CONVEYER_VERTICAL = 2;
 	}
 
 	public static class DIO {
-		public static final int CARGO_SENSOR = 0;
+		public static final int CARGO_SENSOR_LEFT = 0;
+		public static final int CARGO_SENSOR_RIGHT = 1;
 	}
 	
 	public static class Physical {
@@ -51,6 +54,16 @@ public class RobotMap {
 			
 			public static final double ROBOT_LENGTH = 28.6;
 			public static final double ROBOT_WIDTH = 30.5;	
+		}
+
+		public static class Cargo {
+			public static final int UPPER_FORWARD = -1;
+			public static final int LOWER_FORWARD = -1;
+		}
+
+		public static class Climber {
+			public static final int LEFT_FORWARD = 1;
+			public static final int RIGHT_FORWARD = -1;
 		}
 		
 	}	

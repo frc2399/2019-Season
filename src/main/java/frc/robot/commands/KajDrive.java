@@ -35,21 +35,21 @@ public class KajDrive extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	dt.disableVoltageComp();
-    	dt.brakeMode();
+    	dt.coastMode();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-	    	double forward = forwardPercent.getAsDouble();
-	    	double turn = turnPercent.getAsDouble();
+	    double forward = forwardPercent.getAsDouble();
+	    double turn = turnPercent.getAsDouble();
 	    	
-	    	double leftSideSpeed = (forward + turn * (Math.abs(forward)));
+	    double leftSideSpeed = (forward + turn * (Math.abs(forward)));
 		double rightSideSpeed = (forward - turn * (Math.abs(forward)));
 		
 		if(Utility.inRange(forward, 0, OI.DEADBAND_WIDTH * 2))
 		{
-			leftSideSpeed = turn/ 2;
-			rightSideSpeed = -turn / 2;
+			leftSideSpeed = turn;
+			rightSideSpeed = -turn;
 		}
 			
 		

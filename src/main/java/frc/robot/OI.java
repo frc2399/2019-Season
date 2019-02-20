@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.*;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.cargoCommands.*;
+import frc.robot.commands.Climb;
 import frc.robot.commands.DriveDistance;
 import frc.robot.commands.KajDrive;
 import frc.robot.commands.TankDrive;
@@ -46,7 +47,7 @@ public class OI {
 	private KajDrive kajDrive;
 	private TankDrive tankDrive;
 
-	public OI(DriveTrain dt, CargoElevator ca, AHRS navx) {
+	public OI(DriveTrain dt, CargoElevator ca, Climber cl, AHRS navx) {
 		
 		xBox = new Joystick(0);
 		stick = new Joystick(1);
@@ -56,7 +57,7 @@ public class OI {
 		DoubleSupplier rightX = ()->(xBox.getRawAxis(4));
 		DoubleSupplier rightY = ()->(xBox.getRawAxis(5) * -1);
 		DoubleSupplier leftY = ()->(xBox.getRawAxis(1) * -1);
-		DoubleSupplier stickY = ()->(stick.getRawAxis(1) * -1);
+		DoubleSupplier stickY = ()->(stick.getRawAxis(1) * 1);
 		DoubleSupplier stickThrottle = ()->(throttleToPositiveRange(stick.getRawAxis(2) * -1));
 		
 		kajDrive = new KajDrive(dt, leftY, rightX, leftShoulder, rightShoulder);
@@ -81,10 +82,45 @@ public class OI {
 
 		// xBoxButtons[5].whenPressed(new TurnAngle(dt, navx, 0, EndAngleMeaning.ABSOLUTE));
 
+		// xBoxButtons[7].whenPressed(defaultDrive());
+
 		// test distances ---------------------------------------------------------------------------------------
 
-		xBoxButtons[1].whenPressed(new DriveDistance(dt, navx, 24));
-		xBoxButtons[2].whenPressed(new DriveDistance(dt, navx, -24));
+		// xBoxButtons[1].whenPressed(new DriveDistance(dt, navx, 60));
+		// xBoxButtons[2].whenPressed(new DriveDistance(dt, navx, -60));
+		// xBoxButtons[3].whenPressed(new DriveDistance(dt, navx, 120));
+		// xBoxButtons[4].whenPressed(new DriveDistance(dt, navx, -120));
+
+
+		// test commands ---------------------------------------------------------------------------------------
+
+		// xBoxButtons[1].whenPressed(new DriveDistance(dt, navx, 24));
+		// xBoxButtons[2].whenPressed(new DriveDistance(dt, navx, -24));
+
+		// xBoxButtons[1].whenPressed(new ExtendIntake(ca));
+		// xBoxButtons[2].whenPressed(new RetractIntake(ca));
+		// xBoxButtons[3].whenPressed(new FlipHorizontalUpperConveyer(ca));
+		// xBoxButtons[4].whenPressed(new FlipVerticalUpperConveyer(ca));
+
+		// xBoxButtons[5].whenPressed(new IntakeCargo(ca));
+		// xBoxButtons[6].whileHeld(new ReverseCargo(ca));
+
+		// xBoxButtons[7].whileHeld(new ScoreCargoCargoship(ca));
+		// xBoxButtons[8].whileHeld(new ScoreCargoRocket(ca));
+
+
+		// competiton ---------------------------------------------------------------------------------------
+
+		stickButtons[1].whileHeld(new Climb(cl, stickY));
+
+		stickButtons[4].whenPressed(new IntakeCargo(ca));
+		stickButtons[3].whileHeld(new ScoreCargoRocket(ca));
+		stickButtons[5].whileHeld(new ScoreCargoCargoship(ca));
+
+		stickButtons[2].whenPressed(new DoNothingCargo(ca));
+		stickButtons[10].whileHeld(new ReverseCargo(ca));
+
+		stickButtons[11].whileHeld(new ReverseUpper(ca));
 
 	}
 	
