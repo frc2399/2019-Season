@@ -18,6 +18,8 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.autoGroups.*;
+import frc.robot.cargoCommands.DoNothingCargo;
+import frc.robot.commands.DoNothingClimber;
 import frc.robot.subsystems.*;
 
 
@@ -32,6 +34,7 @@ public class Robot extends TimedRobot {
 
   DriveTrain dt;
   CargoElevator ca;
+  Climber cl;
   OI oi;
   AHRS navx;
 
@@ -52,10 +55,12 @@ public class Robot extends TimedRobot {
     
     dt = new DriveTrain();
     ca = new CargoElevator();
-    oi = new OI(dt, ca, navx);
+    cl = new Climber();
+    oi = new OI(dt, ca, cl, navx);
 
-
-    dt.initDefaultCommand(oi.defaultDrive());  
+    dt.initDefaultCommand(oi.defaultDrive());
+    ca.initDefaultCommand(new DoNothingCargo(ca)); 
+    cl.initDefaultCommand(new DoNothingClimber(cl));
     
     UsbCamera cam1 = CameraServer.getInstance().startAutomaticCapture();
     cam1.setResolution(CAMERA_WIDTH, CAMERA_HEIGHT);

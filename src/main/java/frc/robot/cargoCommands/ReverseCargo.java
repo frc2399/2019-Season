@@ -10,11 +10,11 @@ package frc.robot.cargoCommands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.CargoElevator;
 
-public class ScoreCargoRocket extends Command {
+public class ReverseCargo extends Command {
   
   CargoElevator con;
   
-  public ScoreCargoRocket(CargoElevator con) {
+  public ReverseCargo(CargoElevator con) {
     this.con = con;
     requires(this.con);
   }
@@ -22,9 +22,7 @@ public class ScoreCargoRocket extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    con.setRotationUpperConveyer(-1);
-    con.flipHorizontalUpperConveyer();
-    con.setRotationLowerConveyer(1);
+    con.setRotationLowerConveyer(-1);
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -33,8 +31,6 @@ public class ScoreCargoRocket extends Command {
     return false;
   }
 
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
   @Override
   protected void interrupted() {
     end();
@@ -42,5 +38,6 @@ public class ScoreCargoRocket extends Command {
 
   @Override
   protected void end() {
+    con.setRotationLowerConveyer(0);
   }
 }
