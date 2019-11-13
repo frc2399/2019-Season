@@ -19,6 +19,8 @@ import frc.robot.cargoCommands.*;
 import frc.robot.commands.Climb;
 import frc.robot.commands.DriveDistance;
 import frc.robot.commands.KajDrive;
+import frc.robot.commands.PreseasonTest;
+import frc.robot.commands.SlowKajDrive;
 import frc.robot.commands.TankDrive;
 import frc.robot.commands.TurnAngle;
 import frc.robot.commands.TurnAngle.EndAngleMeaning;
@@ -109,10 +111,14 @@ public class OI {
 		// xBoxButtons[8].whileHeld(new ScoreCargoRocket(ca));
 
 
-		// competiton ---------------------------------------------------------------------------------------
+		// competition ---------------------------------------------------------------------------------------
+
+		xBoxButtons[6].whileHeld(new SlowKajDrive(dt, leftY, rightX, leftShoulder, rightShoulder));
+
+		xBoxButtons[1].whenPressed(new TankDrive(dt, leftY, rightY));
+		xBoxButtons[2].whenPressed(new KajDrive(dt, leftY, rightX, leftShoulder, rightShoulder));
 
 		stickButtons[1].whileHeld(new Climb(cl, stickY));
-
 		stickButtons[4].whenPressed(new IntakeCargo(ca));
 		stickButtons[3].whileHeld(new ScoreCargoRocket(ca));
 		stickButtons[5].whileHeld(new ScoreCargoCargoship(ca));
@@ -121,9 +127,14 @@ public class OI {
 		stickButtons[10].whileHeld(new ReverseCargo(ca));
 
 		stickButtons[11].whileHeld(new ReverseUpper(ca));
+		stickButtons[7].whenPressed(new FlipHorizontalUpperConveyer(ca));
 
 	}
-	
+
+	public boolean stopAuto(){
+		return xBoxButtons[1].get();
+	}
+
 	public static double throttleToPositiveRange(double input) {
 		return (input + 1) / 2;
 	}

@@ -37,31 +37,40 @@ public class DriveTrain extends Subsystem {
 	private double actualLeftVelPrev;
 	private double actualRightVelPrev;
 	
-	
+	//global variables
+	// *
 	private IMotorControllerEnhanced leftBackTalon;
 	private IMotorController leftFrontTalon;
 	
 	private IMotorControllerEnhanced rightBackTalon;
 	private IMotorController rightFrontTalon;
-	
+	// *
+
 	private IMotorController[] allMotorControllers;
-	
+
 	private double fuzz;
 	
+	//* constructor
     public DriveTrain() {
-    	
-    	leftBackTalon = new TalonSRX(RobotMap.CAN.LEFT_DT_BACK_ID);
+		
+		//talon initializers
+		leftBackTalon = new TalonSRX(RobotMap.CAN.LEFT_DT_BACK_ID);
     	leftFrontTalon = new TalonSRX(RobotMap.CAN.LEFT_DT_FRONT_ID);
     	
     	rightBackTalon = new TalonSRX(RobotMap.CAN.RIGHT_DT_BACK_ID);
-    	rightFrontTalon = new TalonSRX(RobotMap.CAN.RIGHT_DT_FRONT_ID);
-    	
+		rightFrontTalon = new TalonSRX(RobotMap.CAN.RIGHT_DT_FRONT_ID);
+		// *
+		
     	IMotorController[] allMotorControllers = {leftBackTalon, leftFrontTalon, rightBackTalon, rightFrontTalon};
-    	this.allMotorControllers = allMotorControllers;
-    	
+		
+		this.allMotorControllers = allMotorControllers;
+		
+		//*
 		leftFrontTalon.follow(leftBackTalon);
 		rightFrontTalon.follow(rightBackTalon);
-    	
+		//*
+		
+
     	// timeout constants
     	leftBackTalon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, PID_IDX, CAN_TIMEOUT);
     	rightBackTalon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, PID_IDX, CAN_TIMEOUT);
@@ -95,7 +104,8 @@ public class DriveTrain extends Subsystem {
     public void initDefaultCommand(Command c) {
     	setDefaultCommand(c);
     }
-    
+	
+	//*
     public void drivePercent(double leftPercent, double rightPercent) {
 		
 		double leftPercentForward = leftPercent * RobotMap.Physical.DriveTrain.LEFT_FORWARD;
@@ -105,6 +115,7 @@ public class DriveTrain extends Subsystem {
 		rightBackTalon.set(ControlMode.PercentOutput, rightPercentForward);
 	
 	}
+	//*
     
     public double toInPerSecFromNativeTalon(double talonNative) {
     	return talonNative * (WHEEL_DIAMETER * (Math.PI / ENCODER_TICKS_PER_REVOLUTION)) * GEAR_RATIO * TALON_100MS_IN_1S;

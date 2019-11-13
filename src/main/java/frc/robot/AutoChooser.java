@@ -39,7 +39,7 @@ public class AutoChooser{
         map.put(new AutoState(Position.LEFT, FirstLocation.CARGO_FAR, SecondLocation.CARGO_FAR, Side.LEFT), new Command[]{new LeftCargoFar(dt, navx, ca), new LeftDepotRocket(dt, navx, ca)});
         map.put(new AutoState(Position.LEFT, FirstLocation.CARGO_FAR, SecondLocation.ROCKET, Side.LEFT), new Command[]{new LeftCargoFar(dt, navx, ca), new LeftDepotRocket(dt, navx, ca)});
 
-        
+    
         map.put(new AutoState(Position.LEFT, FirstLocation.CARGO_CLOSE, SecondLocation.CARGO_CLOSE, Side.RIGHT), new Command[]{new LeftCargoClose(dt, navx, ca), new LeftDepotRocket(dt, navx, ca)});
         map.put(new AutoState(Position.LEFT, FirstLocation.CARGO_CLOSE, SecondLocation.CARGO_MIDDLE, Side.RIGHT), new Command[]{new LeftCargoClose(dt, navx, ca), new LeftDepotMiddle(dt, navx, ca)});
         map.put(new AutoState(Position.LEFT, FirstLocation.CARGO_CLOSE, SecondLocation.CARGO_FAR, Side.RIGHT), new Command[]{new LeftCargoClose(dt, navx, ca), new LeftDepotFar(dt, navx, ca)});

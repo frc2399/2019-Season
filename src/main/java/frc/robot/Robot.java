@@ -19,7 +19,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.autoGroups.*;
 import frc.robot.cargoCommands.DoNothingCargo;
+import frc.robot.commands.DefaultClimb;
 import frc.robot.commands.DoNothingClimber;
+import frc.robot.commands.KajDrive;
 import frc.robot.subsystems.*;
 
 
@@ -37,6 +39,7 @@ public class Robot extends TimedRobot {
   Climber cl;
   OI oi;
   AHRS navx;
+  Command auto;
 
   SendableChooser<Command> autoChooser;
 
@@ -60,14 +63,25 @@ public class Robot extends TimedRobot {
 
     dt.initDefaultCommand(oi.defaultDrive());
     ca.initDefaultCommand(new DoNothingCargo(ca)); 
-    cl.initDefaultCommand(new DoNothingClimber(cl));
+    cl.initDefaultCommand(new DefaultClimb(cl));
     
     UsbCamera cam1 = CameraServer.getInstance().startAutomaticCapture();
     cam1.setResolution(CAMERA_WIDTH, CAMERA_HEIGHT);
 
     autoChooser = new SendableChooser<>();
     autoChooser.addOption("LeftCargoClose", new LeftCargoClose(dt, navx, ca));
+    autoChooser.addOption("LeftCargoMiddle", new LeftCargoFar(dt, navx, ca));
     autoChooser.addOption("LeftCargoFar", new LeftCargoFar(dt, navx, ca));
+    autoChooser.addOption("MiddleCargoLeftClose", new LeftCargoClose(dt, navx, ca));
+    autoChooser.addOption("MiddleCargoLeftMiddle", new LeftCargoClose(dt, navx, ca));
+    autoChooser.addOption("MiddleCargoLeftFar", new LeftCargoClose(dt, navx, ca));
+    autoChooser.addOption("MiddleCargoRightClose", new LeftCargoClose(dt, navx, ca));
+    autoChooser.addOption("MiddleCargoRightMiddle", new LeftCargoClose(dt, navx, ca));
+    autoChooser.addOption("MiddleCargoRightFar", new LeftCargoClose(dt, navx, ca));
+    autoChooser.addOption("RightCargoClose", new LeftCargoClose(dt, navx, ca));
+    autoChooser.addOption("RightCargoMiddle", new LeftCargoFar(dt, navx, ca));
+    autoChooser.addOption("RightCargoFar", new LeftCargoFar(dt, navx, ca));
+
     
     SmartDashboard.putData("AutoChooser", autoChooser);
     SmartDashboard.putData("DriveTrain", dt);
@@ -122,7 +136,8 @@ public class Robot extends TimedRobot {
 
     // schedule the autonomous command (example)
 
-    Command auto = autoChooser.getSelected();
+    //auto = autoChooser.getSelected();
+    auto = new Test(dt, navx, ca);
     auto.start();
 
   }
@@ -133,6 +148,10 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     Scheduler.getInstance().run();
+    // if(oi.stopAuto()){
+    //   auto.cancel();
+    // }
+
   }
 
   @Override

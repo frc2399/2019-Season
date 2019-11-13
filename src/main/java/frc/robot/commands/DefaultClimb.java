@@ -5,24 +5,47 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.cargoCommands;
+package frc.robot.commands;
+
+import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.subsystems.CargoElevator;
+import frc.robot.subsystems.Climber;
 
-public class FlipVerticalUpperConveyer extends Command {
-    
-  public FlipVerticalUpperConveyer() {
+public class DefaultClimb extends Command {
+  
+  private Climber cl;
+  
+  public DefaultClimb(Climber cl) {
+    this.cl = cl;
+    requires(cl);
+  }
+
+  // Called just before this Command runs the first time
+  @Override
+  protected void initialize() {
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    cl.setPercent(0.1);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
     return false;
+  }
+
+  // Called once after isFinished returns true
+  @Override
+  protected void end() {
+  }
+
+  // Called when another command which requires one or more of the same
+  // subsystems is scheduled to run
+  @Override
+  protected void interrupted() {
   }
 }

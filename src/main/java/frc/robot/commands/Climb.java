@@ -31,7 +31,12 @@ public class Climb extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    cl.setPercent(percent.getAsDouble());
+    double dPercent = percent.getAsDouble();
+    if(dPercent > 0){
+      dPercent /= 2;
+    }
+
+    cl.setPercent(dPercent);
   }
 
   // Make this return true when this Command no longer needs to run execute()

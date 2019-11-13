@@ -223,11 +223,12 @@ public class TurnAngle extends Command {
 	@Override
 	protected void end() {
 		timer.stop();
+		timer.reset();
 	}
 	
 	@Override
 	protected void interrupted() {
-		timer.stop();
+		end();		
 	}
 	
 	private void flipFuzz() {

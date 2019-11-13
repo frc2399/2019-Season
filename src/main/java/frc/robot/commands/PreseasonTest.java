@@ -5,19 +5,25 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.cargoCommands;
+package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.cargoCommands.ExtendIntake;
 import frc.robot.subsystems.CargoElevator;
 
-public class FlipVerticalUpperConveyer extends Command {
-    
-  public FlipVerticalUpperConveyer() {
-  }
+public class PreseasonTest extends Command {
+  
+  CargoElevator a;
+
+  public PreseasonTest(CargoElevator b) {
+    a = b;
+    requires(a);
+  } 
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    a.extendIntake();
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -25,4 +31,11 @@ public class FlipVerticalUpperConveyer extends Command {
   protected boolean isFinished() {
     return false;
   }
+
+  // Called once after isFinished returns true
+  @Override
+  protected void end() {
+
+  }
+
 }
